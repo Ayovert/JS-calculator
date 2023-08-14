@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import numArr, { numObj } from './data';
+import { numObj } from './data';
 
 import './style.css';
 
@@ -63,28 +63,47 @@ export default function App() {
     setOperation('');
   }
   function calculateNum() {
+    let first = 0;
+    let second = 0;
+    let op = '';
+    let currArr = [...currState];
     let total = 0;
-    if (operation) {
-      switch (operation) {
-        case '+':
-          total = firstNum + secNum;
-          console.log(firstNum + secNum, firstNum, secNum, 'total');
-          break;
 
-        case '-':
-          total = firstNum - secNum;
-          break;
-
-        case '*':
-          total = firstNum * secNum;
-          break;
-
-        case '÷':
-          total = firstNum / secNum;
-          break;
+    //i-1 i i +1
+    for (let i = 0; i < currArr.length; i++) {
+      if (opArr.find((x) => x.op === currArr[i]) !== undefined) {
+        console.log(currArr[i], 'op');
+        op = currArr[i];
+        first = currArr[i - 1];
+        second = currArr[i + 1];
       }
-      clearOP(total);
+
+      if (op) {
+        switch (op) {
+          case '+':
+            total = first + second;
+            console.log(firstNum + secNum, firstNum, secNum, 'total');
+            break;
+
+          case '-':
+            total = first - second;
+            break;
+
+          case '*':
+            total = first * second;
+            break;
+
+          case '÷':
+            total = first / second;
+            break;
+        }
+        currArr.slice(3);
+        console.log(currArr, 'curX');
+        //  currArr.unshift(total);
+      }
     }
+
+    clearOP(total);
   }
 
   const opArr = [
@@ -106,6 +125,9 @@ export default function App() {
   /**id="add", id="subtract", id="multiply", id="divide". */
 
   console.log(currState, firstNum, secNum, totalNum);
+
+  console.log([1, 2, 3, 4, 5].slice(3));
+  //console.log(currState.find(i => i === "+"))
 
   return (
     <div className="container">
@@ -159,7 +181,7 @@ export default function App() {
 }
 
 /**
- *
+ *arr.find gives undefined or item
  * state 1st operand, operation, 2nd operand
  * check if current input state is zero
  * check if number has a decimal point before allowing
