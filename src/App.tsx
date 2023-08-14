@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import { numObj } from './data';
+import { numObj, ObjtoStr, opArr, regex } from './data';
 
 import './style.css';
 
@@ -8,11 +8,15 @@ export default function App() {
   const [firstNum, setFirstNum] = useState(0);
   const [totalNum, setTotalNum] = useState(0);
   const [secNum, setSecNum] = useState(0);
-  const [operation, setOperation] = useState('');
-  const [currState, setCurrState] = useState([]);
+  const [operation, setOperation] = useState(false);
+  // const [currState, setCurrState] = useState([]);
+  const [currState, setCurrState] = useState('');
+
+  
 
   function setCalculatorState(num) {
-    let currArr = [];
+    let currStat = currState + num;
+    /*let currArr = [];
     currArr.push(...currState);
     //currArr.push(num);
 
@@ -22,67 +26,89 @@ export default function App() {
 
       num = parseFloat(first + num.toString());
       setFirstNum(num);
+      currArr.push(num);
     } else {
       num = parseFloat(secNum.toString() + num.toString());
       setSecNum(num);
+      currArr[currArr.length] = num;
 
       //setCurrState(`${firstNum + " "+operation +" " + num}`);
     }
 
-    currArr.push(num);
-
     setTotalNum(currArr[currArr.length - 1]);
     setCurrState(currArr);
+    //setOperation("")*/
+
+    let currArr = currStat.split(/[+]/);
+
+    let total = currArr[currArr.length - 1];
+    setTotalNum(parseFloat(total));
+
+    setCurrState(currStat);
   }
 
   const handleOp = (op) => {
-    let currArr = [];
+    /* let currArr = [];
     currArr.push(...currState);
+
     if (currArr[0] !== undefined) {
       setFirstNum(currArr[0]);
     }
     currArr.push(op);
 
     setCurrState(currArr);
-    setOperation(op);
+    setOperation(op);*/
+
+    let currStat = currState + op;
+    setCurrState(currStat);
   };
 
   function clearCalc() {
     setFirstNum(0);
     setSecNum(0);
     setTotalNum(0);
-    setOperation('');
-    setCurrState([]);
+    setOperation(false);
+    //setCurrState([]);
+    setCurrState('');
   }
 
   function clearOP(total) {
     setFirstNum(0);
     setTotalNum(total);
-    setCurrState([total]);
+    //setCurrState([total]);
+    setCurrState(total.toString());
     setSecNum(0);
-    setOperation('');
+    setOperation(false);
   }
   function calculateNum() {
     let first = 0;
     let second = 0;
     let op = '';
-    let currArr = [...currState];
+    //let currArr = [...currState];
+
+   // let currArr = [...currState.split(/([^\d+]|[+-])/g)];
+
+   
+   
+  // let currArr = [...currState.split(/([^\d+]|[+-])/g)];
+  let currArr = [...currState.split("")];
+    console.log(currArr, 'curr');
     let total = 0;
+
+    ///[+-/*]+/
+    ///\w+|./g
+
+    ///(?<=[ +])/
 
     //i-1 i i +1
     while (currArr.length > 2) {
-      console.log(currArr, 'shift');
-      console.log(
-        currArr.find((x) => opArr.find((y) => y.op === x)),
-        'find'
-      );
-
+      //check if an operator is in the array
       if (currArr.find((x) => opArr.find((y) => y.op === x)) !== undefined) {
         let index = currArr.findIndex((x) => opArr.find((y) => y.op === x));
 
         op = currArr.find((x) => opArr.find((y) => y.op === x));
-        first = currArr[index - 1];
-        second = currArr[index + 1];
+        first = parseFloat(currArr[index - 1]);
+        second = parseFloat(currArr[index + 1]);
       }
 
       if (op) {
@@ -109,7 +135,8 @@ export default function App() {
         }
 
         console.log(currArr, 'curX');
-        currArr.unshift(total);
+        //currArr.unshift(total);
+        currArr.unshift(total.toString());
         op = '';
         second = 0;
       }
@@ -118,12 +145,7 @@ export default function App() {
     clearOP(total);
   }
 
-  const opArr = [
-    { id: 'add', op: '+' },
-    { id: 'subtract', op: '-' },
-    { id: 'multiply', op: '*' },
-    { id: 'divide', op: '÷' },
-  ];
+  
 
   useEffect(() => {
     setTotalNum(totalNum);
@@ -138,8 +160,6 @@ export default function App() {
 
   console.log(currState, firstNum, secNum, totalNum);
 
-  console.log([1, 2, 3, 4, 5].slice(3));
-  //console.log(currState.find(i => i === "+"))
 
   return (
     <div className="container">
@@ -160,7 +180,7 @@ export default function App() {
                   key={index}
                   id={item.id}
                   className="num"
-                  onClick={() => setCalculatorState(item.num)}
+                  onClick={() => setCalculatorState(item.num.toString())}
                 >
                   {item.num}
                 </div>
@@ -201,4 +221,9 @@ export default function App() {
  *
  * for negative no., check if operation is null
  *
+ *
+ *
+ * add first then concatenate
  */
+
+

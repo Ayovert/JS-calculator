@@ -14,12 +14,38 @@ export const numObj = [
   { id: 'three', num: 3 },
   { id: 'four', num: 4 },
   { id: 'five', num: 5 },
-  { id: 'six', num: 6},
+  { id: 'six', num: 6 },
   { id: 'seven', num: 7 },
   { id: 'eight', num: 8 },
   { id: 'nine', num: 9 },
   { id: 'zero', num: 0 },
-  {id:'decimal', num: "."}
-  
+  { id: 'decimal', num: '.' },
 ];
+
+export const opArr = [
+  { id: 'add', op: '+' },
+  { id: 'subtract', op: '-' },
+  { id: 'multiply', op: '*' },
+  { id: 'divide', op: '÷' },
+];
+
+function ObjtoStr(obj) {
+  let str = obj
+    .map((x) => {
+      if (x.op === '*') {
+        return '/' + x.op;
+      } else {
+        return x.op;
+      }
+    })
+    .join('');
+
+  let regex = `([^\d+]|[${str}])`;
+
+  return regex;
+}
+
+let regex1 = ObjtoStr(opArr);
+
+export const regex = new RegExp(regex1, 'g');
 
