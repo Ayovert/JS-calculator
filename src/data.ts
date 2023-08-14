@@ -46,16 +46,13 @@ function ObjtoStr(obj) {
 
   return regex;
 }
-let regex1 = ObjtoStr(opArr);
+const regex1 = ObjtoStr(opArr);
 //console.log(regex1)
 
-//export const regex  = new RegExp("^" + "(abc)"+"$", "g");
+export const regex  = new RegExp(regex1, 'g');
 
 
-export const regex  = `/${regex1}/`
-
-
-console.log(regex,"reg")
+console.log(regex)
 
 
 
