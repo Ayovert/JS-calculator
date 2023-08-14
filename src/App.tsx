@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import { numObj, ObjtoStr, opArr, regex } from './data';
+import { numObj, opArr, regex } from './data';
 
 import './style.css';
 
@@ -91,7 +91,7 @@ export default function App() {
    
    
   // let currArr = [...currState.split(/([^\d+]|[+-])/g)];
-  let currArr = [...currState.split("")];
+  let currArr = [...currState.split(regex)];
     console.log(currArr, 'curr');
     let total = 0;
 
@@ -160,6 +160,7 @@ export default function App() {
 
   console.log(currState, firstNum, secNum, totalNum);
 
+  console.log(regex)
 
   return (
     <div className="container">

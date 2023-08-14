@@ -6,7 +6,7 @@ numArrx.push(0);
 numArrx.push('.');
 
 const numArr = numArrx;
-export default numArr;
+//export numArr;
 
 export const numObj = [
   { id: 'one', num: 1 },
@@ -19,14 +19,14 @@ export const numObj = [
   { id: 'eight', num: 8 },
   { id: 'nine', num: 9 },
   { id: 'zero', num: 0 },
-  { id: 'decimal', num: '.' },
+  { id: 'decimal', num: '.' }
 ];
 
 export const opArr = [
   { id: 'add', op: '+' },
   { id: 'subtract', op: '-' },
   { id: 'multiply', op: '*' },
-  { id: 'divide', op: '÷' },
+  { id: 'divide', op: '÷' }
 ];
 
 function ObjtoStr(obj) {
@@ -42,10 +42,20 @@ function ObjtoStr(obj) {
 
   let regex = `([^\d+]|[${str}])`;
 
+  
+
   return regex;
 }
-
 let regex1 = ObjtoStr(opArr);
+//console.log(regex1)
 
-export const regex = new RegExp(regex1, 'g');
+//export const regex  = new RegExp("^" + "(abc)"+"$", "g");
+
+
+export const regex  = `/${regex1}/`
+
+
+console.log(regex,"reg")
+
+
 
