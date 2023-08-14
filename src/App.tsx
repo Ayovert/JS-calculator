@@ -70,19 +70,26 @@ export default function App() {
     let total = 0;
 
     //i-1 i i +1
-    for (let i = 0; i < currArr.length; i++) {
-      if (opArr.find((x) => x.op === currArr[i]) !== undefined) {
-        console.log(currArr[i], 'op');
-        op = currArr[i];
-        first = currArr[i - 1];
-        second = currArr[i + 1];
+    while (currArr.length > 2) {
+      console.log(currArr, 'shift');
+      console.log(
+        currArr.find((x) => opArr.find((y) => y.op === x)),
+        'find'
+      );
+
+      if (currArr.find((x) => opArr.find((y) => y.op === x)) !== undefined) {
+        let index = currArr.findIndex((x) => opArr.find((y) => y.op === x));
+
+        op = currArr.find((x) => opArr.find((y) => y.op === x));
+        first = currArr[index - 1];
+        second = currArr[index + 1];
       }
 
       if (op) {
         switch (op) {
           case '+':
             total = first + second;
-            console.log(firstNum + secNum, firstNum, secNum, 'total');
+            console.log(first + second, first, second, 'total');
             break;
 
           case '-':
@@ -97,9 +104,14 @@ export default function App() {
             total = first / second;
             break;
         }
-        currArr.slice(3);
+        if (currArr.length >= 3) {
+          currArr = currArr.slice(3);
+        }
+
         console.log(currArr, 'curX');
-        //  currArr.unshift(total);
+        currArr.unshift(total);
+        op = '';
+        second = 0;
       }
     }
 
