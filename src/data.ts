@@ -19,17 +19,17 @@ export const numObj = [
   { id: 'eight', num: 8 },
   { id: 'nine', num: 9 },
   { id: 'zero', num: 0 },
-  { id: 'decimal', num: '.' }
+  { id: 'decimal', num: '.' },
 ];
 
 export const opArr = [
+  { id: 'divide', op: '÷' },
+  { id: 'multiply', op: '*' },
   { id: 'add', op: '+' },
   { id: 'subtract', op: '-' },
-  { id: 'multiply', op: '*' },
-  { id: 'divide', op: '÷' }
 ];
 
-let text = "2+3"
+let text = '2+3';
 function ObjtoStr(obj) {
   let str = obj
     .map((x) => {
@@ -41,10 +41,6 @@ function ObjtoStr(obj) {
     })
     .join('');
 
-  
-
-  
-
   return str;
 }
 
@@ -52,14 +48,10 @@ const opStr = ObjtoStr(opArr);
 let regex1 = `[${opStr}]`;
 //let regex2 = `([^\\d+]|[${opStr}])`;
 
-let regex2= `([^\\d+]|\\d+[\\.{0,1}]\\d+|[${opStr}])`
-//const regex1 = 
+let regex2 = `([^\\d+]|\\d+[\\.{0,1}]\\d+|[${opStr}])`;
+//const regex1 =
 //console.log(regex1)
 export const opRegex = new RegExp(regex1, 'g');
-export const regex  = new RegExp(regex2, 'g');
+export const regex = new RegExp(regex2, 'g');
 
-
-console.log(text.split(regex))
-
-
-
+console.log(text.split(regex));

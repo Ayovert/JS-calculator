@@ -99,20 +99,14 @@ export default function App() {
     // let currArr = [...currState.split(/([^\d+]|[+-])/g)];
 
     // let currArr = [...currState.split(/([^\d+]|[+-])/g)];
-    let currArr = [...currState.split(regex).filter(i=> i !== "")];
+    let currArr = [...currState.split(regex).filter((i) => i !== '')];
 
-
-    
-
-if(currArr[0] === "-"){
-let firstEl = currArr[0] + currArr[1];
-console.log(firstEl,"f");
-
-console.log(currArr.splice(0,2),"mye")
-
-currArr.unshift(firstEl)
-}
-    console.log(currArr, "curr")
+    if (currArr[0] === '-') {
+      let firstEl = currArr[0] + currArr[1];
+      currArr.splice(0, 2);
+      currArr.unshift(firstEl);
+    }
+    console.log(currArr, 'curr');
 
     let total = 0;
 
@@ -122,6 +116,25 @@ currArr.unshift(firstEl)
     ///(?<=[ +])/
 
     //i-1 i i +1
+
+    let opAr = opArr.map((i) => i.op);
+    console.log(opAr, 'opAr');
+
+    let opOrder = [];
+
+    opAr.forEach((i, index) => {
+      console.log(i);
+      currArr.forEach((a, ind) => {
+        if (i === a) {
+          opOrder.push([index, ind]);
+        }
+      });
+      console.log(opOrder, 'op Ord');
+    });
+
+    //for(let i =0; i < opOrder.length; i++ )
+
+    //
     while (currArr.length > 2) {
       //check if an operator is in the array
       if (currArr.find((x) => opArr.find((y) => y.op === x)) !== undefined) {
@@ -242,4 +255,8 @@ currArr.unshift(firstEl)
  *
  *
  * add first then concatenate
+ *
+ *
+ * TO- DO
+ * what happens when i enter 2 operands
  */
