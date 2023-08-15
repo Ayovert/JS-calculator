@@ -91,7 +91,7 @@ export default function App() {
    
    
   // let currArr = [...currState.split(/([^\d+]|[+-])/g)];
-  let currArr = [...currState.split(regex)];
+  let currArr = [...currState.split("")];
     console.log(currArr, 'curr');
     let total = 0;
 

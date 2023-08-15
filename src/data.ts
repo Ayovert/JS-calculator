@@ -29,6 +29,8 @@ export const opArr = [
   { id: 'divide', op: '÷' }
 ];
 
+
+let text = "2+3"
 function ObjtoStr(obj) {
   let str = obj
     .map((x) => {
@@ -40,7 +42,7 @@ function ObjtoStr(obj) {
     })
     .join('');
 
-  let regex = `([^\d+]|[${str}])`;
+  let regex = `([^\\d]|[${str}])`;
 
   
 
@@ -52,7 +54,7 @@ const regex1 = ObjtoStr(opArr);
 export const regex  = new RegExp(regex1, 'g');
 
 
-console.log(regex)
+console.log(text.split(regex))
 
 
 
