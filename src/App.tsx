@@ -57,20 +57,14 @@ export default function App() {
   }
 
   const handleOp = (op) => {
-    /* let currArr = [];
-    currArr.push(...currState);
 
-    if (currArr[0] !== undefined) {
-      setFirstNum(currArr[0]);
+    let lastIndex = currState[currState.length - 1];
+    if (opArr.map(i => i.op).findIndex(i => i == lastIndex) < 0) {
+      let currStat = currState + op;
+      setOperation(false);
+      setCurrState(currStat);
     }
-    currArr.push(op);
 
-    setCurrState(currArr);
-    setOperation(op);*/
-
-    let currStat = currState + op;
-    setOperation(false);
-    setCurrState(currStat);
   };
 
   function clearCalc() {
@@ -94,11 +88,7 @@ export default function App() {
     let first = 0;
     let second = 0;
     let op = '';
-    //let currArr = [...currState];
 
-    // let currArr = [...currState.split(/([^\d+]|[+-])/g)];
-
-    // let currArr = [...currState.split(/([^\d+]|[+-])/g)];
     let currArr = [...currState.split(regex).filter((i) => i !== '')];
 
     if (currArr[0] === '-') {
@@ -114,33 +104,27 @@ export default function App() {
     let opAr = opArr.map((i) => i.op);
     //console.log(opAr, 'opAr');
 
-  
-
-    
-    
-
-    //for(let i =0; i < opOrder.length; i++ )
 
     //opOrder[0][1] position in opAr , BODMAS inspired
     // or opOrder[0][2] pick index from calculator state
-//&& count < opOrder.length
-    let count = 0;
+    //&& count < opOrder.length
 
-    while (currArr.length > 2 ) {
+
+    while (currArr.length > 2) {
 
       let opOrder = [];
-// update operations in current State Arr
+      // update operations in current State Arr
       opAr.forEach((i, index) => {
         currArr.forEach((a, ind) => {
           if (i === a) {
-            opOrder.push([i,index, ind]);
+            opOrder.push([i, index, ind]);
           }
         });
-        
+
       });
 
       //console.log(opOrder, 'op Ord');
-     
+
       //check if an operator is in the operator array
       if (opArr.find((y) => y.op === opOrder[0][0]) !== undefined) {
         let index = opOrder[0][2];
@@ -148,44 +132,44 @@ export default function App() {
         op = opOrder[0][0];
         first = parseFloat(currArr[index - 1]);
         second = parseFloat(currArr[index + 1]);
-       // console.log(op, first, second,index, "opfsec");
-      
+        // console.log(op, first, second,index, "opfsec");
 
-      if (op) {
-        switch (op) {
-          case '+':
-            total = first + second;
-            console.log(first + second, first, second, 'total');
-            break;
 
-          case '-':
-            total = first - second;
-            break;
+        if (op) {
+          switch (op) {
+            case '+':
+              total = first + second;
+              console.log(first + second, first, second, 'total');
+              break;
 
-          case '*':
-            total = first * second;
-            break;
+            case '-':
+              total = first - second;
+              break;
 
-          case '÷':
-            total = first / second;
-            break;
+            case '*':
+              total = first * second;
+              break;
+
+            case '÷':
+              total = first / second;
+              break;
+          }
+          if (currArr.length >= 3) {
+            //currArr = currArr.slice(3);
+
+            currArr.splice(index - 1, 3, total.toString())
+          }
+
+
+          //currArr.unshift(total);
+          // currArr.unshift(total.toString());
+          console.log(currArr, 'curX');
+          op = '';
+          second = 0;
         }
-        if (currArr.length >= 3) {
-          //currArr = currArr.slice(3);
-
-          currArr.splice(index-1,3, total.toString())
-        }
-
-        
-        //currArr.unshift(total);
-       // currArr.unshift(total.toString());
-        console.log(currArr, 'curX');
-        op = '';
-        second = 0;
       }
-    }
 
-  }
+    }
 
     clearOP(total);
   }

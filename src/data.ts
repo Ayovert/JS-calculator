@@ -54,4 +54,4 @@ let regex2 = `([^\\d+]|\\d+[\\.{0,1}]\\d+|[${opStr}])`;
 export const opRegex = new RegExp(regex1, 'g');
 export const regex = new RegExp(regex2, 'g');
 
-console.log(text.split(regex));
+console.log(opArr.map(i => i.op).findIndex(i => i =="÷"))
