@@ -110,40 +110,46 @@ export default function App() {
 
     let total = 0;
 
-    ///[+-/*]+/
-    ///\w+|./g
-
-    ///(?<=[ +])/
-
-    //i-1 i i +1
 
     let opAr = opArr.map((i) => i.op);
-    console.log(opAr, 'opAr');
+    //console.log(opAr, 'opAr');
 
-    let opOrder = [];
+  
 
-    opAr.forEach((i, index) => {
-      console.log(i);
-      currArr.forEach((a, ind) => {
-        if (i === a) {
-          opOrder.push([index, ind]);
-        }
-      });
-      console.log(opOrder, 'op Ord');
-    });
+    
+    
 
     //for(let i =0; i < opOrder.length; i++ )
 
-    //
-    while (currArr.length > 2) {
-      //check if an operator is in the array
-      if (currArr.find((x) => opArr.find((y) => y.op === x)) !== undefined) {
-        let index = currArr.findIndex((x) => opArr.find((y) => y.op === x));
+    //opOrder[0][1] position in opAr , BODMAS inspired
+    // or opOrder[0][2] pick index from calculator state
+//&& count < opOrder.length
+    let count = 0;
 
-        op = currArr.find((x) => opArr.find((y) => y.op === x));
+    while (currArr.length > 2 ) {
+
+      let opOrder = [];
+// update operations in current State Arr
+      opAr.forEach((i, index) => {
+        currArr.forEach((a, ind) => {
+          if (i === a) {
+            opOrder.push([i,index, ind]);
+          }
+        });
+        
+      });
+
+      //console.log(opOrder, 'op Ord');
+     
+      //check if an operator is in the operator array
+      if (opArr.find((y) => y.op === opOrder[0][0]) !== undefined) {
+        let index = opOrder[0][2];
+
+        op = opOrder[0][0];
         first = parseFloat(currArr[index - 1]);
         second = parseFloat(currArr[index + 1]);
-      }
+       // console.log(op, first, second,index, "opfsec");
+      
 
       if (op) {
         switch (op) {
@@ -165,16 +171,21 @@ export default function App() {
             break;
         }
         if (currArr.length >= 3) {
-          currArr = currArr.slice(3);
+          //currArr = currArr.slice(3);
+
+          currArr.splice(index-1,3, total.toString())
         }
 
-        console.log(currArr, 'curX');
+        
         //currArr.unshift(total);
-        currArr.unshift(total.toString());
+       // currArr.unshift(total.toString());
+        console.log(currArr, 'curX');
         op = '';
         second = 0;
       }
     }
+
+  }
 
     clearOP(total);
   }
