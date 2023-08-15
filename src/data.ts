@@ -29,7 +29,6 @@ export const opArr = [
   { id: 'divide', op: '÷' }
 ];
 
-
 let text = "2+3"
 function ObjtoStr(obj) {
   let str = obj
