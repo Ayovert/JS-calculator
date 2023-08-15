@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import { numObj, opArr, regex } from './data';
+import { numObj, opArr, opRegex, regex } from './data';
 
 import './style.css';
 
@@ -12,10 +12,15 @@ export default function App() {
   // const [currState, setCurrState] = useState([]);
   const [currState, setCurrState] = useState('');
 
-  
-
   function setCalculatorState(num) {
-    let currStat = currState + num;
+    let currStat = '';
+
+    //check if calculation was recently carried out, if yes , clear console and show new number
+    if (operation) {
+      currStat = '' + num;
+    } else {
+      currStat = currState + num;
+    }
     /*let currArr = [];
     currArr.push(...currState);
     //currArr.push(num);
@@ -39,10 +44,14 @@ export default function App() {
     setCurrState(currArr);
     //setOperation("")*/
 
-    let currArr = currStat.split(/[+]/);
+    //split current state into array to get last number
+    let currArr = currStat.split(opRegex);
 
     let total = currArr[currArr.length - 1];
     setTotalNum(parseFloat(total));
+
+    //false means a new calculation
+    setOperation(false);
 
     setCurrState(currStat);
   }
@@ -60,6 +69,7 @@ export default function App() {
     setOperation(op);*/
 
     let currStat = currState + op;
+    setOperation(false);
     setCurrState(currStat);
   };
 
@@ -78,7 +88,7 @@ export default function App() {
     //setCurrState([total]);
     setCurrState(total.toString());
     setSecNum(0);
-    setOperation(false);
+    setOperation(true);
   }
   function calculateNum() {
     let first = 0;
@@ -86,13 +96,24 @@ export default function App() {
     let op = '';
     //let currArr = [...currState];
 
-   // let currArr = [...currState.split(/([^\d+]|[+-])/g)];
+    // let currArr = [...currState.split(/([^\d+]|[+-])/g)];
 
-   
-   
-  // let currArr = [...currState.split(/([^\d+]|[+-])/g)];
-  let currArr = [...currState.split(regex)];
-    console.log(currArr, 'curr');
+    // let currArr = [...currState.split(/([^\d+]|[+-])/g)];
+    let currArr = [...currState.split(regex).filter(i=> i !== "")];
+
+
+    
+
+if(currArr[0] === "-"){
+let firstEl = currArr[0] + currArr[1];
+console.log(firstEl,"f");
+
+console.log(currArr.splice(0,2),"mye")
+
+currArr.unshift(firstEl)
+}
+    console.log(currArr, "curr")
+
     let total = 0;
 
     ///[+-/*]+/
@@ -145,8 +166,6 @@ export default function App() {
     clearOP(total);
   }
 
-  
-
   useEffect(() => {
     setTotalNum(totalNum);
     setCurrState(currState);
@@ -159,8 +178,6 @@ export default function App() {
   /**id="add", id="subtract", id="multiply", id="divide". */
 
   console.log(currState, firstNum, secNum, totalNum);
-
-  console.log(regex)
 
   return (
     <div className="container">
@@ -226,5 +243,3 @@ export default function App() {
  *
  * add first then concatenate
  */
-
-

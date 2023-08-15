@@ -42,16 +42,22 @@ function ObjtoStr(obj) {
     })
     .join('');
 
-  let regex = `([^\\d]|[${str}])`;
+  
 
   
 
-  return regex;
+  return str;
 }
-const regex1 = ObjtoStr(opArr);
-//console.log(regex1)
 
-export const regex  = new RegExp(regex1, 'g');
+const opStr = ObjtoStr(opArr);
+let regex1 = `[${opStr}]`;
+//let regex2 = `([^\\d+]|[${opStr}])`;
+
+let regex2= `([^\\d+]|\\d+[\\.{0,1}]\\d+|[${opStr}])`
+//const regex1 = 
+//console.log(regex1)
+export const opRegex = new RegExp(regex1, 'g');
+export const regex  = new RegExp(regex2, 'g');
 
 
 console.log(text.split(regex))
