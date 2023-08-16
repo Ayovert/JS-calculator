@@ -5,14 +5,18 @@ import { numObj, opArr, opRegex, regex } from './data';
 import './style.css';
 
 export default function App() {
-  const [firstNum, setFirstNum] = useState(0);
+  //const [firstNum, setFirstNum] = useState(0);
   const [totalNum, setTotalNum] = useState(0);
-  const [secNum, setSecNum] = useState(0);
+  //const [secNum, setSecNum] = useState(0);
   const [operation, setOperation] = useState(false);
   // const [currState, setCurrState] = useState([]);
   const [currState, setCurrState] = useState('');
 
   function setCalculatorState(num) {
+
+    if((num === "0" && currState.length  <1) || (num === "0" && currState.length === 1 && currState[0] === "0")){
+      return;
+    }
     let currStat = '';
 
     //check if calculation was recently carried out, if yes , clear console and show new number
@@ -21,38 +25,17 @@ export default function App() {
     } else {
       currStat = currState + num;
     }
-    /*let currArr = [];
-    currArr.push(...currState);
-    //currArr.push(num);
-
-    let first = firstNum.toString();
-    if (!operation) {
-      currArr = [];
-
-      num = parseFloat(first + num.toString());
-      setFirstNum(num);
-      currArr.push(num);
-    } else {
-      num = parseFloat(secNum.toString() + num.toString());
-      setSecNum(num);
-      currArr[currArr.length] = num;
-
-      //setCurrState(`${firstNum + " "+operation +" " + num}`);
-    }
-
-    setTotalNum(currArr[currArr.length - 1]);
-    setCurrState(currArr);
-    //setOperation("")*/
+    console.log("check")
 
     //split current state into array to get last number
     let currArr = currStat.split(opRegex);
 
     let total = currArr[currArr.length - 1];
+
     setTotalNum(parseFloat(total));
 
     //false means a new calculation
     setOperation(false);
-
     setCurrState(currStat);
   }
 
@@ -68,8 +51,8 @@ export default function App() {
   };
 
   function clearCalc() {
-    setFirstNum(0);
-    setSecNum(0);
+    //setFirstNum(0);
+   // setSecNum(0);
     setTotalNum(0);
     setOperation(false);
     //setCurrState([]);
@@ -77,11 +60,11 @@ export default function App() {
   }
 
   function clearOP(total) {
-    setFirstNum(0);
+    //setFirstNum(0);
     setTotalNum(total);
     //setCurrState([total]);
     setCurrState(total.toString());
-    setSecNum(0);
+    //setSecNum(0);
     setOperation(true);
   }
   function calculateNum() {
@@ -123,8 +106,7 @@ export default function App() {
 
       });
 
-      //console.log(opOrder, 'op Ord');
-
+    
       //check if an operator is in the operator array
       if (opArr.find((y) => y.op === opOrder[0][0]) !== undefined) {
         let index = opOrder[0][2];
@@ -155,7 +137,6 @@ export default function App() {
               break;
           }
           if (currArr.length >= 3) {
-            //currArr = currArr.slice(3);
 
             currArr.splice(index - 1, 3, total.toString())
           }
@@ -185,7 +166,7 @@ export default function App() {
 
   /**id="add", id="subtract", id="multiply", id="divide". */
 
-  console.log(currState, firstNum, secNum, totalNum);
+  //console.log(currState, firstNum, secNum, totalNum);
 
   return (
     <div className="container">
