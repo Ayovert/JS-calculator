@@ -18,7 +18,7 @@ body {
 #calculator {
   margin: 30px;
   box-shadow: 5px 3px 10px rgb(38, 119, 119);
-  width: 300px;
+  width: 400px;
   border-radius: 16px;
 
   background-color: rgb(34, 175, 175);
@@ -29,9 +29,10 @@ body {
   background-color: rgb(50, 104, 104);
   border: none;
   border-bottom: 1px solid rgb(157, 207, 240);
-  padding: 10px;
+  padding: 20px 30px;
   border-radius: 16px 16px 0 0;
   font-size: 2em;
+  overflow:auto;
 }
 
 #display p {

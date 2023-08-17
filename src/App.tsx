@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import { numObj, opArr, opRegex, regex } from './data';
+import { isOp, numObj, opArr, opObj, opRegex, regex } from './data';
 
 import './style.css';
 
@@ -25,10 +25,12 @@ export default function App() {
     } else {
       currStat = currState + num;
     }
-    console.log("check")
+    
 
     //split current state into array to get last number
     let currArr = currStat.split(opRegex);
+
+    console.log(currArr, "set State")
 
     let total = currArr[currArr.length - 1];
 
@@ -40,9 +42,12 @@ export default function App() {
   }
 
   const handleOp = (op) => {
+if((op === "*" || op === "÷" || op === "+") && currState.length < 1 ){
+      return;
+    }    
 
-    let lastIndex = currState[currState.length - 1];
-    if (opArr.map(i => i.op).findIndex(i => i == lastIndex) < 0) {
+let lastIndex = currState[currState.length - 1];
+    if (opArr.findIndex(i => i == lastIndex) < 0) {
       let currStat = currState + op;
       setOperation(false);
       setCurrState(currStat);
@@ -71,8 +76,10 @@ export default function App() {
     let first = 0;
     let second = 0;
     let op = '';
+    let total = 0;
 
-    let currArr = [...currState.split(regex).filter((i) => i !== '')];
+    try{
+      let currArr = [...currState.split(regex).filter((i) => i !== '')];
 
     if (currArr[0] === '-') {
       let firstEl = currArr[0] + currArr[1];
@@ -81,11 +88,29 @@ export default function App() {
     }
     console.log(currArr, 'curr');
 
-    let total = 0;
+    
+    if(currArr.length <= 2){
+      if(currArr.length === 1 ){
+       
+          total = parseFloat(currArr[0])
+        
+      }else{
+        if(isOp(currArr[0])){
+          let op = currArr[0];
+          let num = currArr[1];
 
+          if(op === "-" || op === "+"){
+            total = op === "+" ? parseFloat(num) : parseFloat(op + num)
+          }else{
+            return;
+          }
 
-    let opAr = opArr.map((i) => i.op);
-    //console.log(opAr, 'opAr');
+        }else{
+          total = parseFloat(currArr[0])
+        }
+      }
+    } else{
+      //console.log(opAr, 'opAr');
 
 
     //opOrder[0][1] position in opAr , BODMAS inspired
@@ -97,7 +122,7 @@ export default function App() {
 
       let opOrder = [];
       // update operations in current State Arr
-      opAr.forEach((i, index) => {
+      opArr.forEach((i, index) => {
         currArr.forEach((a, ind) => {
           if (i === a) {
             opOrder.push([i, index, ind]);
@@ -108,7 +133,7 @@ export default function App() {
 
     
       //check if an operator is in the operator array
-      if (opArr.find((y) => y.op === opOrder[0][0]) !== undefined) {
+      if (opArr.findIndex((y) => y === opOrder[0][0]) > -1) {
         let index = opOrder[0][2];
 
         op = opOrder[0][0];
@@ -152,7 +177,16 @@ export default function App() {
 
     }
 
-    clearOP(total);
+    }
+    
+
+    clearOP(+total.toFixed(12));
+    }catch(error){
+      console.log(error);
+      return;
+    }
+
+    
   }
 
   useEffect(() => {
@@ -196,7 +230,7 @@ export default function App() {
           </div>
 
           <div id="opsPad">
-            {opArr.map((item, index) => {
+            {opObj.map((item, index) => {
               return (
                 <div
                   key={index}
@@ -209,7 +243,11 @@ export default function App() {
               );
             })}
 
-            <div id="equal" className="ops" onClick={() => calculateNum()}>
+            <div id="equal" className="ops" onClick={() => {
+              if(currState.length > 0 && !isOp(currState)){
+                calculateNum()
+              }
+            }}>
               {'='}
             </div>
           </div>

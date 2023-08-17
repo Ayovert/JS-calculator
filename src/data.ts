@@ -22,7 +22,7 @@ export const numObj = [
   { id: 'decimal', num: '.' },
 ];
 
-export const opArr = [
+export const opObj = [
   { id: 'divide', op: '÷' },
   { id: 'multiply', op: '*' },
   { id: 'add', op: '+' },
@@ -30,18 +30,29 @@ export const opArr = [
 ];
 
 
+export const opArr = opObj.map((i) => i.op);
+
+
 function ObjtoStr(obj) {
   let str = obj
     .map((x) => {
-      if (x.op === '*') {
+    /*  if (x === '*') {
         return '/' + x.op;
-      } else {
-        return x.op;
-      }
+      } else {*/
+        return x;
+     // }
     })
     .join('');
 
   return str;
+}
+
+
+export function isOp(op){
+if(opArr.findIndex(i => i === op) > -1){
+  return true;
+}
+return false;
 }
 
 const opStr = ObjtoStr(opArr);
@@ -54,4 +65,6 @@ let regex2 = `([^\\d+]|\\d+[\\.{0,1}]\\d+|[${opStr}])`;
 export const opRegex = new RegExp(regex1, 'g');
 export const regex = new RegExp(regex2, 'g');
 
-console.log(opArr.map(i => i.op).findIndex(i => i =="÷"))
+console.log(opArr.map(i => i).findIndex(i => i =="÷"))
+
+console.log("6*9+8".split(opRegex))
