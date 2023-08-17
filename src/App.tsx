@@ -25,12 +25,9 @@ export default function App() {
     } else {
       currStat = currState + num;
     }
-    
+    try{
+      let currArr = currStat.split(opRegex);
 
-    //split current state into array to get last number
-    let currArr = currStat.split(opRegex);
-
-    console.log(currArr, "set State")
 
     let total = currArr[currArr.length - 1];
 
@@ -39,6 +36,13 @@ export default function App() {
     //false means a new calculation
     setOperation(false);
     setCurrState(currStat);
+    }catch(err){
+      console.error(err);
+      return;
+    }
+
+    //split current state into array to get last number
+    
   }
 
   const handleOp = (op) => {
@@ -86,7 +90,7 @@ let lastIndex = currState[currState.length - 1];
       currArr.splice(0, 2);
       currArr.unshift(firstEl);
     }
-    console.log(currArr, 'curr');
+    
 
     
     if(currArr.length <= 2){
@@ -169,7 +173,7 @@ let lastIndex = currState[currState.length - 1];
 
           //currArr.unshift(total);
           // currArr.unshift(total.toString());
-          console.log(currArr, 'curX');
+          
           op = '';
           second = 0;
         }
